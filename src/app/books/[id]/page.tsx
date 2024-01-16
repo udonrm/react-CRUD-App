@@ -33,7 +33,7 @@ const BookDetail = () => {
           {book.body}
         </p>
       </div>
-      <Link href="">Edit</Link>|<Link href="/">Back</Link>
+      <Link href={`${book.id}/edit`}>Edit</Link>|<Link href="/">Back</Link>
     </>
   );
 };

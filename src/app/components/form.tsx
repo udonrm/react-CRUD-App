@@ -1,11 +1,25 @@
 "use client";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-export const Form = ({ onBookCreated }) => {
+export const Form = ({
+  onBookCreated,
+  endPointUrl,
+  method,
+  initialValue,
+  pageTo,
+}) => {
+  const router = useRouter();
   const [value, setValue] = useState({
     title: "",
     body: "",
   });
+
+  useEffect(() => {
+    if (initialValue) {
+      setValue(initialValue);
+    }
+  }, [initialValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -13,8 +27,8 @@ export const Form = ({ onBookCreated }) => {
 
   const submitForm = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/book`, {
-        method: "POST",
+      const response = await fetch(endPointUrl, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -33,6 +47,7 @@ export const Form = ({ onBookCreated }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await submitForm();
+    router.push(pageTo);
     setValue({
       title: "",
       body: "",

@@ -42,7 +42,7 @@ const BooksIndex = () => {
                 <Link href={`books/${book.id}`}>Show</Link>
               </td>
               <td>
-                <Link href="">Edit</Link>
+                <Link href={`books/${book.id}/edit`}>Edit</Link>
               </td>
               <td>
                 <Link href="">Destroy</Link>
@@ -53,7 +53,12 @@ const BooksIndex = () => {
       </table>
 
       <h1>New Book</h1>
-      <Form onBookCreated={addNewBook} />
+      <Form
+        onBookCreated={addNewBook}
+        endPointUrl={`http://localhost:3000/api/book`}
+        method={"POST"}
+        pageTo={""}
+      />
     </>
   );
 };
