@@ -19,10 +19,6 @@ const BooksIndex = () => {
     fetchAllBooks();
   }, []);
 
-  useEffect(() => {
-    console.log(books);
-  }, [books]);
-
   const addNewBook = async (newBook: BookType) => {
     await setBooks((currentBooks) => [...currentBooks, newBook]);
   };
@@ -43,7 +39,7 @@ const BooksIndex = () => {
               <td>{book.title}</td>
               <td>{book.body}</td>
               <td>
-                <Link href="">Show</Link>
+                <Link href={`books/${book.id}`}>Show</Link>
               </td>
               <td>
                 <Link href="">Edit</Link>
