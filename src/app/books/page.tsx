@@ -4,6 +4,17 @@ import Link from "next/link";
 import { Form } from "../components/form";
 import { useEffect, useState } from "react";
 
+const deleteBook = async (id: number) => {
+  const response = await fetch(`http://localhost:3000/api/book/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.json;
+};
+
 const BooksIndex = () => {
   const [books, setBooks] = useState<BookType[]>([]);
 
@@ -21,6 +32,13 @@ const BooksIndex = () => {
 
   const addNewBook = async (newBook: BookType) => {
     await setBooks((currentBooks) => [...currentBooks, newBook]);
+  };
+
+  const handleDelete = async (id: number) => {
+    await deleteBook(id);
+    //削除されたIDと異なるIDを持つ本のみを新しい配列に格納する
+    const newBooks = books.filter((book) => book.id !== id);
+    setBooks(newBooks);
   };
 
   return (
@@ -45,7 +63,9 @@ const BooksIndex = () => {
                 <Link href={`books/${book.id}/edit`}>Edit</Link>
               </td>
               <td>
-                <Link href="">Destroy</Link>
+                <Link href="" onClick={() => handleDelete(book.id)}>
+                  Destroy
+                </Link>
               </td>
             </tr>
           ))}
